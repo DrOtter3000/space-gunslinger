@@ -1,4 +1,16 @@
 function love.load()
+    anim8 = require 'libraries/anim8/anim8'
+
+    sprites = {}
+    sprites.playerSheet = love.graphics.newImage('sprites/playerSheet.png')
+
+    local grid = anim8.newGrid(16, 32, sprites.playerSheet:getWidth(), sprites.playerSheet:getHeight())
+
+    animations = {}
+    animations.idle = anim8.newAnimation(grid('1-4', 1), 0.2)
+    animations.jump = anim8.newAnimation(grid('1-1', 2), 0.2)
+    animations.run = anim8.newAnimation(grid('1-4', 3), 0.2)
+
     wf = require('libraries/windfield/windfield')
     world = wf.newWorld(0, 400, false)
     world:setQueryDebugDrawing(true)
@@ -10,6 +22,7 @@ function love.load()
     player = world:newRectangleCollider(360, 100, 16, 32, {collision_class = "Player"})
     player:setFixedRotation(true)
     player.speed = 300
+    player.animation = animations.idle
     
     platform = world:newRectangleCollider(250, 400, 300, 100, {collision_class = "Platform"})
     platform:setType("static")
@@ -35,11 +48,16 @@ function love.update(dt)
     if player:enter('Hazard') then
         player:destroy()
     end
+
+    player.animation:update(dt)
 end
 
 
 function love.draw()
     world:draw()
+
+    local px, py = player:getPosition()
+    player.animation:draw(sprites.playerSheet, px, py, nil, 1, nil, 8, 16)
 end
 
 
