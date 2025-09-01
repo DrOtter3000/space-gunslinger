@@ -4,12 +4,12 @@ function love.load()
     sprites = {}
     sprites.playerSheet = love.graphics.newImage('sprites/playerSheet.png')
 
-    local grid = anim8.newGrid(16, 32, sprites.playerSheet:getWidth(), sprites.playerSheet:getHeight())
+    local grid = anim8.newGrid(32, 64, sprites.playerSheet:getWidth(), sprites.playerSheet:getHeight())
 
     animations = {}
-    animations.idle = anim8.newAnimation(grid('1-4', 1), 0.2)
-    animations.jump = anim8.newAnimation(grid('1-1', 2), 0.2)
-    animations.run = anim8.newAnimation(grid('1-4', 3), 0.2)
+    animations.idle = anim8.newAnimation(grid('1-6', 1), 0.2)
+    animations.run = anim8.newAnimation(grid('1-4', 2), 0.2)
+    animations.jump = anim8.newAnimation(grid('1-1', 3), 0.2)
 
     wf = require('libraries/windfield/windfield')
     world = wf.newWorld(0, 400, false)
@@ -19,7 +19,7 @@ function love.load()
     world:addCollisionClass('Platform')
     world:addCollisionClass('Hazard')
 
-    player = world:newRectangleCollider(360, 100, 16, 32, {collision_class = "Player"})
+    player = world:newRectangleCollider(360, 100, 32, 64, {collision_class = "Player"})
     player:setFixedRotation(true)
     player.speed = 300
     player.animation = animations.idle
@@ -39,7 +39,7 @@ end
 function love.update(dt)
     world:update(dt)
     if player.body then
-        local colliders = world:queryRectangleArea(player:getX() - 8, player:getY() + 16, 16, 2,{'Platform'})
+        local colliders = world:queryRectangleArea(player:getX() - 16, player:getY() + 32, 32, 2,{'Platform'})
         if #colliders > 0 then
             player.grounded = true
         else
@@ -82,14 +82,14 @@ function love.draw()
     world:draw()
 
     local px, py = player:getPosition()
-    player.animation:draw(sprites.playerSheet, px, py, nil, player.direction, 1, 8, 16)
+    player.animation:draw(sprites.playerSheet, px, py, nil, player.direction, 1, 16, 32)
 end
 
 
 function love.keypressed(key)
     if key == 'up' then
         if player.grounded then
-            player:applyLinearImpulse(0, -250)
+            player:applyLinearImpulse(0, -1200)
         end
     end
 end
