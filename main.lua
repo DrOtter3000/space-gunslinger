@@ -23,6 +23,9 @@ function love.load()
     player:setFixedRotation(true)
     player.speed = 300
     player.animation = animations.idle
+    player.isMoving = false
+    -- Direction -1 = left, 1 = right
+    player.direction = 1
     
     platform = world:newRectangleCollider(250, 400, 300, 100, {collision_class = "Platform"})
     platform:setType("static")
@@ -36,12 +39,17 @@ function love.update(dt)
     world:update(dt)
 
     if player.body then
+        player.isMoving = false
         local px, py = player:getPosition()
         if love.keyboard.isDown('right') then
             player:setX(px + player.speed * dt)
+            player.isMoving = true
+            player.direction = 1
         end
         if love.keyboard.isDown('left') then
             player:setX(px - player.speed * dt)
+            player.isMoving = true
+            player.direction = -1
         end
     end
 
@@ -49,6 +57,12 @@ function love.update(dt)
         player:destroy()
     end
 
+    if player.isMoving then
+        player.animation = animations.run
+    else
+        player.animation = animations.idle
+    end
+    
     player.animation:update(dt)
 end
 
@@ -57,7 +71,7 @@ function love.draw()
     world:draw()
 
     local px, py = player:getPosition()
-    player.animation:draw(sprites.playerSheet, px, py, nil, 1, nil, 8, 16)
+    player.animation:draw(sprites.playerSheet, px, py, nil, player.direction, 1, 8, 16)
 end
 
 
