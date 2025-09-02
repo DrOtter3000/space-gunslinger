@@ -4,3 +4,6 @@
 [submodule "libraries/anim8"]
 	path = libraries/anim8
 	url = https://github.com/kikito/anim8.git
+[submodule "libraries/Simple-Tiled-Implementation"]
+	path = libraries/Simple-Tiled-Implementation
+	url = https://github.com/karai17/Simple-Tiled-Implementation.git
