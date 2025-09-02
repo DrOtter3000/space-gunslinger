@@ -7,3 +7,6 @@
 [submodule "libraries/Simple-Tiled-Implementation"]
 	path = libraries/Simple-Tiled-Implementation
 	url = https://github.com/karai17/Simple-Tiled-Implementation.git
+[submodule "libraries/hump"]
+	path = libraries/hump
+	url = https://github.com/vrld/hump.git
