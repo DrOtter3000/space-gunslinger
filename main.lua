@@ -9,23 +9,29 @@ function love.load()
 
     sprites = {}
     sprites.playerSheet = love.graphics.newImage('sprites/playerSheet.png')
+    sprites.slugSheet = love.graphics.newImage('sprites/slugSheet.png')
 
     local grid = anim8.newGrid(32, 64, sprites.playerSheet:getWidth(), sprites.playerSheet:getHeight())
+    local slugGrid = anim8.newGrid(64, 32, sprites.slugSheet:getWidth(), sprites.slugSheet:getHeight())
 
     animations = {}
     animations.idle = anim8.newAnimation(grid('1-6', 1), 0.2)
     animations.run = anim8.newAnimation(grid('1-4', 2), 0.2)
     animations.jump = anim8.newAnimation(grid('1-1', 3), 0.2)
+    animations.slugWalk = anim8.newAnimation(slugGrid('1-4', 1), 0.2)
+    animations.slugDie = anim8.newAnimation(slugGrid('1-4', 2), 0.2)
 
     wf = require('libraries/windfield/windfield')
-    world = wf.newWorld(0, 400, false)
+    world = wf.newWorld(0, 200, false)
     world:setQueryDebugDrawing(true)
 
     world:addCollisionClass('Player')
     world:addCollisionClass('Platform')
     world:addCollisionClass('Hazard')
+    world:addCollisionClass('Enemy')
 
     require('player')
+    require('slug')
     
     --[[
     dangerZone = world:newRectangleCollider(0, 550, 800, 50, {collision_class = "Hazard"})
@@ -42,6 +48,7 @@ function love.update(dt)
     world:update(dt)
     gameMap:update(dt)
     playerUpdate(dt)
+    updateSlugs(dt)
 
 
     local px, py = player:getPosition()
@@ -52,8 +59,9 @@ end
 function love.draw()
     cam:attach()
         gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
-        world:draw()
+        --world:draw()
         drawPlayer()
+        drawSlug()
     cam:detach()
 end
 
@@ -61,7 +69,7 @@ end
 function love.keypressed(key)
     if key == 'up' then
         if player.grounded then
-            player:applyLinearImpulse(0, -1200)
+            player:applyLinearImpulse(0, -2400)
         end
     end
 end
@@ -90,5 +98,9 @@ function loadMap()
     gameMap = sti("maps/Level1.lua")
     for i, obj in pairs(gameMap.layers["Platforms"].objects) do
         spawnPlatform(obj.x, obj.y, obj.width, obj.height)
+    end
+
+    for i, obj in pairs(gameMap.layers["Slugs"].objects) do
+        spawnSlug(obj.x, obj.y)
     end
 end 
