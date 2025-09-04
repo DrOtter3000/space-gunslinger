@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="12">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="16">
  <editorsettings>
   <export target="Level1.lua" format="lua"/>
  </editorsettings>
@@ -45,5 +45,11 @@
   <object id="9" x="32" y="384" width="320" height="32"/>
   <object id="10" x="32" y="128" width="928" height="64"/>
   <object id="11" x="32" y="192" width="192" height="64"/>
+  <object id="12" x="-160" y="-160"/>
+ </objectgroup>
+ <objectgroup id="3" name="Slugs">
+  <object id="13" x="672" y="320" width="32" height="32"/>
+  <object id="14" x="992" y="480" width="32" height="32"/>
+  <object id="15" x="1056" y="224" width="32" height="32"/>
  </objectgroup>
 </map>

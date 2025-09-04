@@ -9,8 +9,8 @@ return {
   height = 23,
   tilewidth = 32,
   tileheight = 32,
-  nextlayerid = 3,
-  nextobjectid = 12,
+  nextlayerid = 4,
+  nextobjectid = 16,
   properties = {},
   tilesets = {
     {
@@ -240,6 +240,74 @@ return {
           y = 192,
           width = 192,
           height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 12,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = -160,
+          y = -160,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 3,
+      name = "Slugs",
+      class = "",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 13,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 672,
+          y = 320,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 14,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 992,
+          y = 480,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 15,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 1056,
+          y = 224,
+          width = 32,
+          height = 32,
           rotation = 0,
           visible = true,
           properties = {}
