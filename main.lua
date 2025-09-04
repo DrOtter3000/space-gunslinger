@@ -40,7 +40,13 @@ function love.load()
 
     platforms = {}
 
-    loadMap()
+    doorX = 0
+    doorY = 0
+
+    currentLevel = "Level1"
+
+
+    loadMap(currentLevel)
 end
 
 
@@ -53,6 +59,16 @@ function love.update(dt)
 
     local px, py = player:getPosition()
     cam:lookAt(px, py)
+
+    local colliders = world:queryCircleArea(doorX, doorY, 16, {'Player'})
+    if #colliders > 0 then
+        if currentLevel == "Level1" then
+            loadMap("Level2")
+        
+        elseif currentLevel == "Level2" then
+            loadMap("Level1")
+        end
+    end
 end
 
 
@@ -72,6 +88,11 @@ function love.keypressed(key)
             player:applyLinearImpulse(0, -2400)
         end
     end
+
+    if key == "r" then
+        loadMap("Level2")
+    end
+
 end
 
 
@@ -94,13 +115,42 @@ function spawnPlatform(x, y, width, height)
 end
 
 
-function loadMap()
-    gameMap = sti("maps/Level1.lua")
+function destroyAll()
+    local i = #platforms
+    while i > -1 do
+        if platforms[i] ~= nil then
+            platforms[i]:destroy()
+        end
+        table.remove(platforms, i)
+        i = i - 1
+    end
+
+    local i = #slugs
+    while i > -1 do
+        if slugs[i] ~= nil then
+            slugs[i]:destroy()
+        end
+        table.remove(slugs, i)
+        i = i - 1
+    end
+end
+
+
+function loadMap(mapName)
+    currentLevel = mapName
+    destroyAll()
+    player:setPosition(64, 650)
+    gameMap = sti("maps/" .. mapName .. ".lua")
     for i, obj in pairs(gameMap.layers["Platforms"].objects) do
         spawnPlatform(obj.x, obj.y, obj.width, obj.height)
     end
 
     for i, obj in pairs(gameMap.layers["Slugs"].objects) do
         spawnSlug(obj.x, obj.y)
+    end
+
+    for i, obj in pairs(gameMap.layers["Door"].objects) do
+        doorX = obj.x
+        doorY = obj.y
     end
 end 
