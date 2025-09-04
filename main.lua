@@ -7,6 +7,15 @@ function love.load()
 
     cam = cameraFile()
 
+    sounds = {}
+    sounds.jump = love.audio.newSource("audio/jump.wav", "static")
+    sounds.jump:setVolume(.25)
+    sounds.music = love.audio.newSource("audio/8-bit_mechanical_complex.mp3", "stream")
+    sounds.music:setLooping(true)
+    sounds.music:setVolume(0.1)
+
+    sounds.music:play()
+
     sprites = {}
     sprites.playerSheet = love.graphics.newImage('sprites/playerSheet.png')
     sprites.slugSheet = love.graphics.newImage('sprites/slugSheet.png')
@@ -86,13 +95,9 @@ function love.keypressed(key)
     if key == 'up' then
         if player.grounded then
             player:applyLinearImpulse(0, -2400)
+            sounds.jump:play()
         end
     end
-
-    if key == "r" then
-        loadMap("Level2")
-    end
-
 end
 
 
